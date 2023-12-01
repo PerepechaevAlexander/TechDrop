@@ -13,6 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TechDrop.Data\TechDrop.Data.csproj" />
+      <ProjectReference Include="..\TechDrop.Logic\TechDrop.Logic.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Controllers\" />
     </ItemGroup>
 

@@ -11,4 +11,14 @@
       <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\TechDrop.Data\TechDrop.Data.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Queries\" />
+    </ItemGroup>
+
 </Project>
