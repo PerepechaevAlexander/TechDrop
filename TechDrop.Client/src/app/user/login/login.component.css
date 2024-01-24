@@ -1,0 +1,105 @@
+.page{
+  background-color: gainsboro;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-form {
+  width: 30em;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1em;
+  margin: 1em;
+}
+
+.right{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.label{
+  font-size: 1.25em;
+}
+.input{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.input-bottom{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+.data {
+  width: 20em;
+  border: 1px solid silver;
+  font-size: 1em;
+  border-radius: 5px;
+  margin-left: 0.5em;
+}
+.submit-pane{
+  display: flex;
+  justify-content: flex-end;
+}
+.submit-button {
+  background-color: #dce4e9;
+  border: 1px solid silver;
+  border-radius: 5px;
+  margin-top: 0.5em;
+  height: 2em;
+  width: 10em;
+  font-size: 1.25em;
+  cursor: pointer;
+}
+
+
+.register-pane {
+  max-width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 0.75em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.register-button {
+  background-color: #dce4e9;
+  border: 1px solid silver;
+  border-radius: 5px;
+  font-size: 1em;
+  height: 2em;
+  width: 12em;
+  cursor: pointer;
+  margin: 0.4em;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  flex: 1;
+}
+
+h1{
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.error {
+  color: red;
+}
+
+.error-115 {
+  color: red;
+  font-size: 1.15em;
+ }

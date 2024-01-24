@@ -17,8 +17,6 @@
       <ProjectReference Include="..\TechDrop.Logic\TechDrop.Logic.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
+
 
 </Project>

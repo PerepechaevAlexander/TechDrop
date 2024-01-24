@@ -1,25 +1,60 @@
-﻿namespace TechDrop.Data.Models.ForProduct.ForProcessor;
+﻿namespace TechDrop.Logic.Dtos;
 
 /// <summary>
-/// Характеристики процессора
+/// Процессор для отображения на странице товара
 /// </summary>
-public class Processor
+public class ProcessorDto
 {
+    /// <summary>
+    /// Id товара
+    /// </summary>
+    public int ProductId { get; set; }
+    
+    /// <summary>
+    /// Описание товара
+    /// </summary>
+    public string Description { get; set; } = null!;
+    
+    /// <summary>
+    /// Стоимость товара
+    /// </summary>
+    public double Cost { get; set; }
+    
+    /// <summary>
+    /// Количество товара на складе
+    /// </summary>
+    public int Quantity { get; set; }
+    
+    /// <summary>
+    /// Скидка на товар
+    /// </summary>
+    public double Discount { get; set; }
+
+    /// <summary>
+    /// ВСЕ изображения товара
+    /// </summary>
+    public IList<ProductPictureDto> Pictures { get; set; } = null!;
+
+    /// <summary>
+    /// Производитель
+    /// </summary>
+    public string Manufacturer { get; set; } = null!;
+
     /// <summary>
     /// Id характеристик процессора
     /// </summary>
     public int ProcessorId { get; set; }
-
+    
     /// <summary>
     /// Модель
     /// </summary>
     public string Model { get; set; } = null!;
-
+    
     /// <summary>
-    /// Id сокета
+    /// Сокет
     /// </summary>
-    public int SocketId { get; set; }
-
+    public string Socket { get; set; } = null!;
+    
     /// <summary>
     /// Год релиза
     /// </summary>
@@ -29,7 +64,7 @@ public class Processor
     /// Наличие системы охлаждения в комплекте
     /// </summary>
     public bool CoolingSystem { get; set; }
-
+    
     /// <summary>
     /// Общее количество ядер
     /// </summary>
@@ -64,7 +99,7 @@ public class Processor
     /// Техпроцесс 
     /// </summary>
     public int TechProcess { get; set; }
-
+    
     /// <summary>
     /// Базовая частота процессора
     /// </summary>
@@ -84,11 +119,16 @@ public class Processor
     /// Максимальная частота энергоэффективных ядер
     /// </summary>
     public double? MaxFrequencyEnergyCores { get; set; }
-
+    
     /// <summary>
     /// Свободный множитель
     /// </summary>
     public bool FreeMultiplier { get; set; }
+
+    /// <summary>
+    /// Типы поддерживаемой оперативной памяти
+    /// </summary>
+    public List<string> RamTypes { get; set; } = null!;
 
     /// <summary>
     /// Максимально поддерживаемый объем оперативной памяти
@@ -116,42 +156,22 @@ public class Processor
     public int MaxTemp { get; set; }
 
     /// <summary>
-    /// Id интегрированного графического ядра
+    /// Наличие графического ядра
     /// </summary>
-    public int? GraphCoreId { get; set; }
+    public bool GraphCoreAvailable { get; set; }
 
     /// <summary>
-    /// Id контроллера PCI-Express
+    /// Интегрированное графическое ядро
     /// </summary>
-    public int PciExpressId { get; set; }
+    public GraphCoreDto? GraphCore { get; set; }
+
+    /// <summary>
+    /// Контроллер PCI-Express
+    /// </summary>
+    public string PciExpress { get; set; } = null!;
 
     /// <summary>
     /// Число линий PCI-Express
     /// </summary>
     public int PciExpressLines { get; set; }
-    
-    /// <summary>
-    /// Товар
-    /// </summary>
-    public Product Product { get; set; } = null!;
-
-    /// <summary>
-    /// Тип оперативной памяти, поддерживаемой процессором (связка Процессор-Тип памяти)
-    /// </summary>
-    public List<ProcessorRamType> ProcessorRamTypes { get; set; } = null!;
-
-    /// <summary>
-    /// Контроллер PCI-Express
-    /// </summary>
-    public PciExpress PciExpress { get; set; } = null!;
-
-    /// <summary>
-    /// Сокет
-    /// </summary>
-    public Socket Socket { get; set; } = null!;
-
-    /// <summary>
-    /// Интегрированное графическое ядро
-    /// </summary>
-    public GraphCore? GraphCore { get; set; } = null!;
 }

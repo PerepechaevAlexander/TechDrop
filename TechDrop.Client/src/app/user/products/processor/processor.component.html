@@ -1,0 +1,188 @@
+<div class="product">
+
+  <div class="prod-header">
+
+    <div class="prod-img" *ngIf="processor.processorId != 0">
+      <img src="data:image/jpeg;base64,{{processor.pictures[0].picture}}" alt="unknown img">
+    </div>
+
+    <h1  class="prod-name">{{processor.manufacturer}} {{processor.model}}</h1>
+
+    <div class="cost-info">
+      <p class="prod-name">{{processor.cost}} руб.</p>
+      <div class="logos">
+        <div class="fav-logo">
+          <img src="assets/img/favorites.png" alt="unknown img">
+        </div>
+        <div class="cart-logo">
+          <img src="assets/img/cart.png" alt="unknown img">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="prod-info">
+    <div class="tab">
+      <button [ngClass]="{activeButton: activeButtonDescription, inactiveButton: inactiveButtonDescription}" (click)="display('desc')">Описание</button>
+      <button [ngClass]="{activeButton: activeButtonSpecifications, inactiveButton: inactiveButtonSpecifications}" (click)="display('spec')">Харакетирстики</button>
+    </div>
+
+    <div [ngClass]="{invisible: visibilityDescription}" >
+      <div class="prod-description"><h2 class="h2-info">Описание {{processor.manufacturer}} {{processor.model}}</h2>
+        <p class="p-desc">{{processor.description}}</p>
+      </div>
+    </div>
+
+    <div [ngClass]="{invisible: visibilitySpecifications}">
+      <div class="prod-spec">
+        <h2 class="h2-info">Характеристики {{processor.manufacturer}} {{processor.model}}</h2>
+        <table>
+          <tr>
+            <th><h3 class="h3-info">Общие параметры</h3></th>
+          </tr>
+          <tr>
+            <td>Модель:</td>
+            <td>{{processor.model}}</td>
+          </tr>
+          <tr>
+            <td>Сокет:</td>
+            <td>{{processor.socket}}</td>
+          </tr>
+          <tr>
+            <td>Год релиза:</td>
+            <td>{{processor.year}}</td>
+          </tr>
+          <tr>
+            <td>Система охлаждения в комплекте:</td>
+            <td *ngIf="processor.coolingSystem">Да</td>
+            <td *ngIf="!processor.coolingSystem">Нет</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Ядро и архитектура</h3></th>
+          </tr>
+          <tr>
+            <td>Общее количество ядер:</td>
+            <td>{{processor.cores}}</td>
+          </tr>
+          <tr>
+            <td>Максимальное число потоков:</td>
+            <td>{{processor.threads}}</td>
+          </tr>
+          <tr>
+            <td>Количество производительных ядер:</td>
+            <td>{{processor.performanceCores}}</td>
+          </tr>
+          <tr>
+            <td>Количество энергоэффективных ядер:</td>
+            <td>{{processor.energyCores}}</td>
+          </tr>
+          <tr>
+            <td>Объем кэша L2:</td>
+            <td>{{processor.l2}} МБ</td>
+          </tr>
+          <tr>
+            <td>Объем кэша L3:</td>
+            <td>{{processor.l3}} МБ</td>
+          </tr>
+          <tr>
+            <td>Техпроцесс:</td>
+            <td>{{processor.techProcess}} нм</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Частота и возможность разгона</h3></th>
+          </tr>
+          <tr>
+            <td>Базовая частота процессора:</td>
+            <td>{{processor.baseFrequency}} ГГц</td>
+          </tr>
+          <tr>
+            <td>Максимальная частота в турбо режиме:</td>
+            <td *ngIf="processor.maxFrequency != null">{{processor.maxFrequency}}</td>
+            <td *ngIf="processor.maxFrequency == null">Отсутствует</td>
+          </tr>
+          <tr>
+            <td>Базовая частота энергоэффективных ядер:</td>
+            <td *ngIf="processor.baseFrequencyEnergyCores != null">{{processor.baseFrequencyEnergyCores}}</td>
+            <td *ngIf="processor.baseFrequencyEnergyCores == null">Отсутствует</td>
+          </tr>
+          <tr>
+            <td>Частота в турбо режиме энергоэффективных ядер:</td>
+            <td *ngIf="processor.maxFrequencyEnergyCores != null">{{processor.maxFrequencyEnergyCores}}</td>
+            <td *ngIf="processor.maxFrequencyEnergyCores == null">Отсутствует</td>
+          </tr>
+          <tr>
+            <td>Свободный множитель:</td>
+            <td *ngIf="processor.freeMultiplier">Да</td>
+            <td *ngIf="!processor.freeMultiplier">Нет</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Параметры оперативной памяти</h3></th>
+          </tr>
+          <tr>
+            <td>Тип памяти:</td>
+            <td>{{processor.ramTypes}}</td>
+          </tr>
+          <tr>
+            <td>Максимально поддерживаемый объем памяти:</td>
+            <td>{{processor.ramCapacity}} ГБ</td>
+          </tr>
+          <tr>
+            <td>Количество каналов:</td>
+            <td>{{processor.ramChannels}}</td>
+          </tr>
+          <tr>
+            <td>Максимальная частота оперативной памяти:</td>
+            <td>{{processor.ramMaxFrequency}} МГц</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Тепловые характеристики</h3></th>
+          </tr>
+          <tr>
+            <td>Тепловыделение (TDP):</td>
+            <td>{{processor.tdp}} Вт</td>
+          </tr>
+          <tr>
+            <td>Максимальная температура процессора:</td>
+            <td>{{processor.maxTemp}} °C</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Графическое ядро</h3></th>
+          </tr>
+          <tr>
+            <td>Интегрированное графическое ядро:</td>
+            <td *ngIf="processor.graphCoreAvailable">Есть</td>
+            <td *ngIf="!processor.graphCoreAvailable">Нет</td>
+          </tr>
+          <tr *ngIf="processor.graphCoreAvailable">
+            <td>Модель графического процессора:</td>
+            <td>{{processor.graphCore.model}}</td>
+          </tr>
+          <tr *ngIf="processor.graphCoreAvailable">
+            <td>Максимальная частота графического ядра:</td>
+            <td>{{processor.graphCore.maxFrequency}}</td>
+          </tr>
+          <tr *ngIf="processor.graphCoreAvailable">
+            <td>Исполнительные блоки:</td>
+            <td>{{processor.graphCore.executiveBlocks}}</td>
+          </tr>
+          <tr *ngIf="processor.graphCoreAvailable">
+            <td>Потоковые процессоры (Shading Units):</td>
+            <td>{{processor.graphCore.shadingUnits}}</td>
+          </tr>
+          <tr>
+            <th><h3 class="h3-info">Шина и контроллеры</h3></th>
+          </tr>
+          <tr>
+            <td>Встроенный контроллер PCI Express:</td>
+            <td>{{processor.pciExpress}}</td>
+          </tr>
+          <tr>
+            <td>Число линий PCI Express:</td>
+            <td>{{processor.pciExpressLines}} шт</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
