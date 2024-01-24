@@ -22,7 +22,7 @@ export class LoginComponent {
       Validators.minLength(6),
       Validators.required,
       Validators.pattern('[A-Za-z0-9_]+'),
-    ]),
+    ])
   });
 
   // Текст "общей" ошибки, возвращаемой сервером
