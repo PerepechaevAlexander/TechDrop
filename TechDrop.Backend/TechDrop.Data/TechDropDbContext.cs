@@ -117,7 +117,7 @@ public sealed class TechDropDbContext : DbContext
                 { Resource = FileConverter.GetBinaryFile(@"..\TechDrop.Data\src\processors\Core i3-12100F.png") };
             Pictures.AddRange(pAthlon3000G, pI310105F, pRyzen54500, pI312100F);
 
-            var userPsn = new User { Email = "psn@ya.ru", Password = "123123", Balance = 0 };
+            var userPsn = new User { Email = "pan@ya.ru", Password = "123123", Balance = 0 };
             Users.AddRange(userPsn);
 
             SaveChanges();
