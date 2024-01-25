@@ -57,4 +57,9 @@ export class AuthService {
     // Перенаправляем юзера на страницу с категориями
     this.router.navigate(['']).then();
   }
+
+  // Выход из системы
+  logOut(){
+    localStorage.clear()
+  }
 }

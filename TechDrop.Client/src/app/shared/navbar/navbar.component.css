@@ -13,7 +13,8 @@ header{
 
 .header-links{
   font-size: 1.5em;
-  margin: 0.5em 0.5em 0.5em 7em
+  margin: 0.5em 0.5em 0.5em 7em;
+  cursor: pointer;
 }
 
 .nav-container{
