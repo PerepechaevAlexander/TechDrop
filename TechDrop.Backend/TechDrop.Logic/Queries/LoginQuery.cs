@@ -14,10 +14,10 @@ public class LoginQuery : IRequest<UserDto>
     public string Email { get; }
     public string Password { get; }
 
-    public LoginQuery(LoginDto loginDto)
+    public LoginQuery(AuthDto authDto)
     {
-        Email = loginDto.Email;
-        Password = loginDto.Password;
+        Email = authDto.Email;
+        Password = authDto.Password;
     }
 }
 
@@ -32,13 +32,14 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, UserDto>
     
     public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
+        // Пытаемся найти пользователя
         var user = await _dbContext.Users
-            .Where(u => u.Email == request.Email && u.Password == request.Password)
+            .Where(u => u.Email.Equals(request.Email) && u.Password.Equals(request.Password))
             .Select(u => new UserDto
             {
                 UserId = u.UserId
             }).FirstOrDefaultAsync(cancellationToken);
-
+        // Если его нет -> кидаем ошибку 401
         if (user == null)
         {
             throw new UnauthorizedException("Неверный логин или пароль!");

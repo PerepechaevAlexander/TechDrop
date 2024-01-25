@@ -23,6 +23,24 @@ public static class ExceptionMiddlewareExtensions
                         await context.Response.WriteAsync(JsonSerializer.Serialize(exception.Message));
                         break;
                     
+                    case InternalServerException isEx:
+                        context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                        await context.Response.WriteAsync(new ErrorDetails
+                        {
+                            StatusCode = isEx.Code,
+                            ErrorMessage = isEx.Message
+                        }.ToString());
+                        break;
+                    
+                    case NotAllowedException naEx:
+                        context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                        await context.Response.WriteAsync(new ErrorDetails
+                        {
+                            StatusCode = naEx.Code,
+                            ErrorMessage = naEx.Message
+                        }.ToString());
+                        break;
+                    
                     case NotFoundException nfEx:
                         context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                         await context.Response.WriteAsync(new ErrorDetails

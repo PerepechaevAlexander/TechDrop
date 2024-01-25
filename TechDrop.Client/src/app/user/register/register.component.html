@@ -1,26 +1,46 @@
 <main class="page">
 
-  <form>
-    <div class="register-form">
-      <div class="center">
-        <h1>TechDrop Регистрация</h1>
-      </div>
-      <div class="input-bottom">
+  <form autocomplete="off" class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <div class="center">
+      <h1>TechDrop Регистрация</h1>
+    </div>
+
+    <div class="right">
+
+      <div class="input">
         <label class="label" for="email">Email</label>
-        <input class="data" type="email" placeholder="email@any.com" id="email">
+        <input class="data" type="email" id="email" formControlName="email" (click)="onInputClick()">
       </div>
+      <div class="error" *ngIf="email.invalid && email.dirty">
+        <div *ngIf="email.errors?.['required']">Поле обязательно для заполнения</div>
+        <div *ngIf="email.errors?.['email']">Введите email</div>
+        <div *ngIf="email.errors?.['maxlength']">Длина не может превышать 31 символ</div>
+      </div>
+
       <div class="input-bottom">
-        <label class="label" for="password">Пароль*</label>
-        <input class="data" type="password" id="password">
+        <label class="label" for="password">Пароль</label>
+        <input class="data" type="password" id="password" formControlName="password" (click)="onInputClick()">
       </div>
+      <div class="error" *ngIf="password.invalid && password.dirty">
+        <div *ngIf="password.errors?.['required']">Поле обязательно для заполнения</div>
+        <div *ngIf="password.errors?.['maxlength']">Длина не может превышать 20 символов</div>
+        <div *ngIf="password.errors?.['minlength']">Длина не может быть менее 6 символов</div>
+      </div>
+
       <div class="input-bottom">
-        <label class="label" for="repeat-password">Повторите пароль*</label>
-        <input class="data" type="password" id="repeat-password">
+        <label class="label" for="repeatPassword">Повторите пароль</label>
+        <input class="data" type="password" id="repeatPassword" formControlName="repeatPassword" (click)="onInputClick()">
       </div>
-      <div class="submit-pane">
-        <label class="note">* - поля, обязательные для заполнения</label>
-        <input class="submit-button" type="submit" value="Зарегистрироваться"/>
+      <div class="error" *ngIf="repeatPassword.invalid && repeatPassword.dirty">
+        <div *ngIf="repeatPassword.errors?.['required']">Поле обязательно для заполнения</div>
+        <div *ngIf="repeatPassword.errors?.['maxlength']">Длина не может превышать 20 символов</div>
+        <div *ngIf="repeatPassword.errors?.['minlength']">Длина не может быть менее 6 символов</div>
       </div>
+      <div class="error" *ngIf="registerForm.errors?.['passwordsMismatch']">Пароли не совпадают</div>
+
+      <div class="error-115" *ngIf="!registerForm.valid">{{ ErrorMessage }}</div>
+      <input class="submit-button" type="submit" value="Зарегистрироваться" [disabled]="!registerForm.valid"/>
     </div>
   </form>
 

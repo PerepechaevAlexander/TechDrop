@@ -46,7 +46,7 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe({
         next: (res) => {
-          this.authService.afterLogin(res.body!.userId, email, password);
+          this.authService.afterAuth(res.body!.userId, email, password);
         },
         error: (e: HttpErrorResponse) => {
           this.ErrorMessage = e.error.ErrorMessage;

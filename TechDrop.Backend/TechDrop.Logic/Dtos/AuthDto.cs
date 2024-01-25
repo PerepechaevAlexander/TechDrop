@@ -1,6 +1,6 @@
 ﻿namespace TechDrop.Logic.Dtos;
 
-public class LoginDto
+public class AuthDto
 {
     /// <summary>
     /// Email юзера

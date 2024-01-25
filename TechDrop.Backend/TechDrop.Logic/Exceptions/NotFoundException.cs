@@ -1,7 +1,7 @@
 ﻿namespace TechDrop.Logic.Exceptions;
 
 /// <summary>
-/// Выбрасываем при отсуствии значения
+/// Исключение, выбрасываемое при отсуствии значения
 /// (например при вытягивании null из БД)
 /// </summary>
 public class NotFoundException : Exception
