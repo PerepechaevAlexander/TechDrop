@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TechDrop.Logic.Dtos;
+using TechDrop.Logic.Dto;
 using TechDrop.Logic.Queries;
 
 namespace TechDrop.WebApi.Controllers;

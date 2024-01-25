@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TechDrop.Data;
-using TechDrop.Logic.Dtos;
+using TechDrop.Logic.Dto;
 
 namespace TechDrop.Logic.Queries;
 

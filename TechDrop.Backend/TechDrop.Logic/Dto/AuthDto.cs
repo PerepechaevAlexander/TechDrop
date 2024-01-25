@@ -1,4 +1,4 @@
-﻿namespace TechDrop.Logic.Dtos;
+﻿namespace TechDrop.Logic.Dto;
 
 public class AuthDto
 {
