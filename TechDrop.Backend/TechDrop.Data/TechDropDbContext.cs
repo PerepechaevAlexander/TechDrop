@@ -38,7 +38,7 @@ public sealed class TechDropDbContext : DbContext
 
     #endregion
 
-    public TechDropDbContext()
+    public TechDropDbContext(DbContextOptions<TechDropDbContext> options) :base(options)
     {
         if (Database.EnsureCreated())
         {
@@ -452,10 +452,5 @@ public sealed class TechDropDbContext : DbContext
             #endregion
 
         }
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=TechDrop;Username=postgres;Password=123");
     }
 }

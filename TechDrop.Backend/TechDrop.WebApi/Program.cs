@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TechDrop.Data;
 using TechDrop.Logic;
 using TechDrop.WebApi.Extensions;
@@ -9,7 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TechDropDbContext>();
+builder.Services.AddDbContext<TechDropDbContext>(optionsBuilder =>
+{
+    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb"));
+});
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<LogicPointer>());
 
 builder.Services.AddCors(options =>
