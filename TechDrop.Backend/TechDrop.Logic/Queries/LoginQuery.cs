@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using TechDrop.Data;
 using TechDrop.Logic.Dto;
 using TechDrop.Logic.Exceptions;
+using TechDrop.Logic.Services;
 
 namespace TechDrop.Logic.Queries;
 
 /// <summary>
 /// Авторизация пользователя
 /// </summary>
-public class LoginQuery : IRequest<UserDto>
+public class LoginQuery : IRequest<UserInfoDto>
 {
     public string Email { get; }
     public string Password { get; }
@@ -21,30 +22,37 @@ public class LoginQuery : IRequest<UserDto>
     }
 }
 
-public class LoginQueryHandler : IRequestHandler<LoginQuery, UserDto>
+public class LoginQueryHandler : IRequestHandler<LoginQuery, UserInfoDto>
 {
     private readonly TechDropDbContext _dbContext;
+    private readonly AuthService _authService;
 
-    public LoginQueryHandler(TechDropDbContext dbContext)
+    public LoginQueryHandler(TechDropDbContext dbContext, AuthService authService)
     {
         _dbContext = dbContext;
+        _authService = authService;
     }
     
-    public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
+    public async Task<UserInfoDto> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         // Пытаемся найти пользователя
-        var user = await _dbContext.Users
+        var userInfoDto = await _dbContext.Users
             .Where(u => u.Email.Equals(request.Email) && u.Password.Equals(request.Password))
-            .Select(u => new UserDto
+            .Select(u => new UserInfoDto
             {
-                UserId = u.UserId
+                Email = u.Email
             }).FirstOrDefaultAsync(cancellationToken);
-        // Если его нет -> кидаем ошибку 401
-        if (user == null)
+        
+        // Если пользователя не существует -> кидаем ошибку 401
+        if (userInfoDto == null)
         {
             throw new UnauthorizedException("Неверный логин или пароль!");
         }
         
-        return user;
+        // Генерим токен доступа
+        userInfoDto.AccessToken = _authService.GetAccessToken(userInfoDto);
+        
+        // Возвращаем информацию о пользователе
+        return userInfoDto;
     }
 }

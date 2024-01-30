@@ -19,22 +19,23 @@ public class AuthController : ControllerBase
     /// <summary>
     /// Авторизация пользователя
     /// </summary>
-    /// <returns><see cref="UserDto"/></returns>
+    /// <returns><see cref="UserInfoDto"/></returns>
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] AuthDto authDto)
     {
-        var user = await _mediator.Send(new LoginQuery(authDto));
-        return Ok(user);
+        var userInfoDto = await _mediator.Send(new LoginQuery(authDto));
+        
+        return Ok(userInfoDto);
     }
     
     /// <summary>
     /// Регистрация пользователя
     /// </summary>
-    /// <returns><see cref="UserDto"/></returns>
+    /// <returns><see cref="UserInfoDto"/></returns>
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] AuthDto authDto)
     {
-        var user = await _mediator.Send(new RegisterQuery(authDto));
-        return Ok(user);
+        var userInfoDto = await _mediator.Send(new RegisterQuery(authDto));
+        return Ok(userInfoDto);
     }
 }

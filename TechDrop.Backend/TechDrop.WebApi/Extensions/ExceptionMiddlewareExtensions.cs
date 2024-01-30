@@ -24,7 +24,7 @@ public static class ExceptionMiddlewareExtensions
                         break;
                     
                     case InternalServerException isEx:
-                        context.Response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         await context.Response.WriteAsync(new ErrorDetails
                         {
                             StatusCode = isEx.Code,

@@ -28,11 +28,11 @@ export class LoginComponent {
   // Текст "общей" ошибки, возвращаемой сервером
   ErrorMessage = '';
 
-  // Геттер для валидации email-а при вводе
+  // Геттер для email-а
   get email() {
     return this.loginForm.controls['email'];
   }
-  // Геттер для валидации пароля при вводе
+  // Геттер для пароля
   get password() {
     return this.loginForm.controls['password'];
   }
@@ -46,7 +46,7 @@ export class LoginComponent {
 
     this.authService.login(email, password).subscribe({
         next: (res) => {
-          this.authService.afterAuth(res.body!.userId, email, password);
+          this.authService.afterAuth(res.body!);
         },
         error: (e: HttpErrorResponse) => {
           this.ErrorMessage = e.error.ErrorMessage;

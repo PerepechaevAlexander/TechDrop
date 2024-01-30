@@ -1,5 +1,4 @@
-// Инфа о юзере, которая хранится в localStorage после авторизации
+// Информация о пользователе, хранится в localStorage после аутентификации
 export interface UserInfo {
-  userId: number,
   email: string
 }

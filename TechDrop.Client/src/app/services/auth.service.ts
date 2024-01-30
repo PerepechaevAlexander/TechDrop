@@ -1,33 +1,32 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {AuthDto} from "../dtos/auth-dto";
-import {UserDto} from "../dtos/user-dto";
-import {UserInfo} from "../dtos/localStorage/userInfo";
+import {UserInfoDto} from "../dtos/userInfo-dto";
 import {Router} from "@angular/router";
-import {AuthData} from "../dtos/localStorage/authData";
+import {UserInfo} from "../dtos/localStorage/userInfo";
 
 @Injectable({
   providedIn: 'root'
 })
-// Сервис авторизация/регистрации
+// Сервис авторизации/регистрации
 export class AuthService {
 
   /* Для авторизации и регистрации используется один и тот же объект - AuthDto.
-     Ответ на оба запроса также представляет собой один объект - UserDto.
-     Фактически, логика одинаковая, только при регистрации - создаётся новый юзер. */
+     Ответ на оба запроса также представляет собой один объект - AccessTokenDto.
+     Фактически логика одинаковая, только при регистрации - создаётся новый юзер. */
 
   constructor(private http: HttpClient,
               @Inject('BASE_API_URL') private baseUrl: string,
               private router: Router) { }
 
-  // Запрос на авторизацию
+  // Запрос на аутентификацию
   login(email: string, password: string){
     let authDto: AuthDto = {
       email: email,
       password: password
     };
 
-    return this.http.post<UserDto>(this.baseUrl + '/Auth/Login', authDto, { observe: 'response' });
+    return this.http.post<UserInfoDto>(this.baseUrl + '/Auth/Login', authDto, { observe: 'response' });
   }
 
   // Запрос на регистрацию
@@ -37,23 +36,19 @@ export class AuthService {
       password: password
     };
 
-    return this.http.post<UserDto>(this.baseUrl + '/Auth/Register', authDto, { observe: 'response' });
+    return this.http.post<UserInfoDto>(this.baseUrl + '/Auth/Register', authDto, { observe: 'response' });
   }
 
   // Действия после успешной авторизации/регистрации
-  afterAuth(userId: number, email: string, password: string){
+  afterAuth(userInfoDto: UserInfoDto){
+    // Маппим информацию о пользователе для localStorage
     let userInfo: UserInfo = {
-      userId: userId,
-      email: email
-    };
-    let authData: AuthData = {
-      data: window.btoa(userId.toString()) + window.btoa(email) + window.btoa(password)
+      email: userInfoDto.email
     }
-
-    // Заносим в localStorage инфу о юзере, метку об авторизации, а также данные, необходимые для работы с сервером
+    // Заносим в localStorage метку об авторизации, информацию о пользователе и токен доступа
     localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('userInfo', JSON.stringify(userInfo));
-    localStorage.setItem('authData', JSON.stringify(authData));
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    localStorage.setItem('accessToken', userInfoDto.accessToken);
     // Перенаправляем юзера на страницу с категориями
     this.router.navigate(['']).then();
   }
@@ -61,5 +56,20 @@ export class AuthService {
   // Выход из системы
   logOut(){
     localStorage.clear()
+  }
+
+  // Авторизован ли пользователь
+  isAuthenticated(): boolean {
+    return localStorage.getItem('isAuthenticated') == 'true';
+  }
+
+  // Получить инофрмацию о пользователе из localStorage
+  getUserInfo() : UserInfo {
+    return JSON.parse(localStorage.getItem('userInfo')!) as UserInfo;
+  }
+
+  // Получить токен доступа (for AuthInterceptor only)
+  getAccessToken(): string {
+    return localStorage.getItem('authData')!;
   }
 }

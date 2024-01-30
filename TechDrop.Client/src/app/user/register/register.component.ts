@@ -61,7 +61,7 @@ export class RegisterComponent {
 
     this.authService.register(email, password).subscribe({
       next: (res)=> {
-        this.authService.afterAuth(res.body!.userId, email, password)
+        this.authService.afterAuth(res.body!)
       },
       error: (e: HttpErrorResponse)=> {
         this.ErrorMessage = e.error.ErrorMessage;

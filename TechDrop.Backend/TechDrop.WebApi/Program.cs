@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TechDrop.Data;
 using TechDrop.Logic;
+using TechDrop.Logic.Configurations;
+using TechDrop.Logic.Services;
 using TechDrop.WebApi.Extensions;
-using TechDrop.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +13,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Регистрируем настройки и сервис аутентификации
+builder.Services.AddTransient<AuthSettings>();
+builder.Services.AddTransient<AuthService>();
+
+// Регистрируем контекст БД
 builder.Services.AddDbContext<TechDropDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDb"));
 });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<LogicPointer>());
+
+
+// Добавляем аутентификацию на основе JWT-токенов
+var authSettings = new AuthSettings(builder.Configuration);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = authSettings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = authSettings.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = authSettings.GetSymmetricSecurityKey()
+        };
+    });
 
 builder.Services.AddCors(options =>
 {
@@ -54,9 +79,8 @@ app.UseHttpsRedirection();
 
 app.ConfigureExceptionHandler();
 
-app.UseAuthorization();
-
-app.UseMiddleware<AuthMiddleware>();
+app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 

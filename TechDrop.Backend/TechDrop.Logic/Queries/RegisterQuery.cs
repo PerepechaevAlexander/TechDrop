@@ -4,13 +4,14 @@ using TechDrop.Data;
 using TechDrop.Data.Models;
 using TechDrop.Logic.Dto;
 using TechDrop.Logic.Exceptions;
+using TechDrop.Logic.Services;
 
 namespace TechDrop.Logic.Queries;
 
 /// <summary>
 /// Регистрация пользователя
 /// </summary>
-public class RegisterQuery : IRequest<UserDto>
+public class RegisterQuery : IRequest<UserInfoDto>
 {
     public string Email { get; }
     public string Password { get; }
@@ -22,30 +23,34 @@ public class RegisterQuery : IRequest<UserDto>
     }
 }
 
-public class RegisterQueryHandler : IRequestHandler<RegisterQuery, UserDto>
+public class RegisterQueryHandler : IRequestHandler<RegisterQuery, UserInfoDto>
 {
     private readonly TechDropDbContext _dbContext;
+    private readonly AuthService _authService;
 
-    public RegisterQueryHandler(TechDropDbContext dbContext)
+    public RegisterQueryHandler(TechDropDbContext dbContext, AuthService authService)
     {
         _dbContext = dbContext;
+        _authService = authService;
     }
     
-    public async Task<UserDto> Handle(RegisterQuery request, CancellationToken cancellationToken)
+    public async Task<UserInfoDto> Handle(RegisterQuery request, CancellationToken cancellationToken)
     {
-        // Пытаемся найти существующего юзера с таким email-ом
+        // Пытаемся найти существующего пользователя с таким email
         var existingUser = await _dbContext.Users
             .Where(u => u.Email.Equals(request.Email))
-            .Select(u => new UserDto
+            .Select(u => new UserInfoDto
             {
-                UserId = u.UserId
+                Email = u.Email
             }).FirstOrDefaultAsync(cancellationToken);
-        // Если такой юзер уже есть -> кидаем ошибку 405
+        
+        // Если такой пользователь уже есть -> кидаем ошибку 405
         if (existingUser != null)
         {
             throw new NotAllowedException("Не удалось зарегистрироваться :(");
         }
-        // Сохраняем юзера в бд
+        
+        // Сохраняем пользователя в бд
         var newUser = new User
         {
             Email = request.Email,
@@ -54,19 +59,24 @@ public class RegisterQueryHandler : IRequestHandler<RegisterQuery, UserDto>
         };
         await _dbContext.Users.AddAsync(newUser, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        // Вытягиваем из бд информацию о новом юзере
-        var user = await _dbContext.Users
+        
+        // Вытягиваем из бд информацию о созданном пользователе
+        var userInfoDto = await _dbContext.Users
             .Where(u => u.Email.Equals(request.Email) && u.Password.Equals(request.Password))
-            .Select(u => new UserDto
+            .Select(u => new UserInfoDto
             {
-                UserId = u.UserId
+                Email = u.Email
             }).FirstOrDefaultAsync(cancellationToken);
+        
         // Если не удалось вытянуть инфу -> кидаем ошибку 500
-        if (user == null)
+        if (userInfoDto == null)
         {
-            throw new InternalServerException("На сервере произошёл сбой. Попробуйте ещё раз.");
+            throw new InternalServerException("Ошибка регистрации! Попробуйте ещё раз");
         }
         
-        return user;
+        // Генерим токен доступа
+        userInfoDto.AccessToken = _authService.GetAccessToken(userInfoDto);
+        
+        return userInfoDto;
     }
 }
