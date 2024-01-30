@@ -20,7 +20,7 @@ public class CategoryController
     /// Получить все существующие категории товаров
     /// </summary>
     /// <returns>Коллекция CategoryDto</returns>
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IList<CategoryDto>> GetCategories()
     {
         var categories = await _mediator.Send(new GetCategoriesQuery());

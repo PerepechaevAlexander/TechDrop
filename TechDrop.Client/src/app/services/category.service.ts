@@ -10,7 +10,7 @@ export class CategoryService {
   constructor(private http: HttpClient, @Inject('BASE_API_URL') private baseUrl: string) { }
 
   getCategories(){
-    return this.http.get<Category[]>(this.baseUrl + "/Category");
+    return this.http.get<Category[]>(this.baseUrl + "/Category/GetAll");
   }
 
 }
