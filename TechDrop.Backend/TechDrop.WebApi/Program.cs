@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TechDrop.Data;
 using TechDrop.Logic;
 using TechDrop.Logic.Configurations;
@@ -11,7 +12,36 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Добавляется сваггер с настройками для Аутентификации.
+// TODO Перенести настройки в отдельный файл. Мб в AuthSettings или ещё куда
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Авторизация осуществляется c помощью JwtToken в заголовке Authorization.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header
+            },
+            new List<string>()
+        }
+    });
+});
 
 // Регистрируем настройки и сервис аутентификации
 builder.Services.AddTransient<AuthSettings>();
