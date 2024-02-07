@@ -48,8 +48,10 @@ builder.Services.AddTransient<AuthSettings>();
 builder.Services.AddTransient<AuthService>();
 // Регистрируем аксессор контекста запроса
 builder.Services.AddHttpContextAccessor();
-// Регистрируем сервис для доступа к пользователю
+// Регистрируем сервисы для доступа к сущностям БД
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<ProductService>();
+builder.Services.AddTransient<CartService>();
 
 // Регистрируем контекст БД
 builder.Services.AddDbContext<TechDropDbContext>(optionsBuilder =>
