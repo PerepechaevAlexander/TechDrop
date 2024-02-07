@@ -9,6 +9,7 @@ import {UserInfo} from "../dtos/localStorage/userInfo";
   providedIn: 'root'
 })
 // Сервис авторизации/регистрации
+// TODO для строк, используемых только здесь, сделать локальные константы
 export class AuthService {
 
   /* Для авторизации и регистрации используется один и тот же объект - AuthDto.
@@ -70,6 +71,6 @@ export class AuthService {
 
   // Получить токен доступа (for AuthInterceptor only)
   getAccessToken(): string {
-    return localStorage.getItem('authData')!;
+    return localStorage.getItem('accessToken')!;
   }
 }

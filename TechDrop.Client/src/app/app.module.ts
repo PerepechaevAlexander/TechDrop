@@ -8,10 +8,11 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { ProcessorsComponent } from './user/catalog/processors/processors.component';
 import { ProcessorComponent } from './user/products/processor/processor.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,9 @@ import {ReactiveFormsModule} from "@angular/forms";
   providers: [
     {
       provide: "BASE_API_URL", useValue: 'https://localhost:5200'
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
     }
   ],
   bootstrap: [AppComponent]
