@@ -31,6 +31,8 @@ var authSettings = new AuthSettings(builder.Configuration);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = true;
+        options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -38,7 +40,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = authSettings.Audience,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = authSettings.GetSymmetricSecurityKey()
+            IssuerSigningKey = authSettings.GetSymmetricSecurityKey(),
+            ValidateLifetime = false
         };
     });
 
@@ -80,7 +83,7 @@ app.UseHttpsRedirection();
 app.ConfigureExceptionHandler();
 
 app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 
