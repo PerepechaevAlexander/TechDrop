@@ -46,6 +46,10 @@ builder.Services.AddSwaggerGen(options =>
 // Регистрируем настройки и сервис аутентификации
 builder.Services.AddTransient<AuthSettings>();
 builder.Services.AddTransient<AuthService>();
+// Регистрируем аксессор контекста запроса
+builder.Services.AddHttpContextAccessor();
+// Регистрируем сервис для доступа к пользователю
+builder.Services.AddTransient<UserService>();
 
 // Регистрируем контекст БД
 builder.Services.AddDbContext<TechDropDbContext>(optionsBuilder =>

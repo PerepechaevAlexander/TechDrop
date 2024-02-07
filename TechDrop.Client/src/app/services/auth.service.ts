@@ -13,7 +13,7 @@ import {UserInfo} from "../dtos/localStorage/userInfo";
 export class AuthService {
 
   /* Для авторизации и регистрации используется один и тот же объект - AuthDto.
-     Ответ на оба запроса также представляет собой один объект - AccessTokenDto.
+     Ответ на оба запроса также представляет собой один объект - UserInfoDto.
      Фактически логика одинаковая, только при регистрации - создаётся новый юзер. */
 
   constructor(private http: HttpClient,

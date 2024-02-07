@@ -27,6 +27,7 @@ public class AuthService
     public string GetAccessToken(UserInfoDto userInfoDto)
     {
         // Создаём клеймы пользователя на основе информации о нём
+        // TODO когда буду делать админа - надо прикрутить сюда роль (как минимум)
         var userClaims = new List<Claim>
         {
             new(ClaimTypes.Email, userInfoDto.Email)
