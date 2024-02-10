@@ -18,14 +18,19 @@
     </div>
 
     <div class="products" id="products">
-      <div *ngFor="let catalogProcessor of catalogProcessors" class="product" routerLink="/product/processor"
-           [queryParams]="{'id': catalogProcessor.productId}">
+      <div *ngFor="let catalogProcessor of catalogProcessors" class="product">
         <div class="img-inf">
-          <div class="prod-img">
+          <div class="prod-img" routerLink="/product/processor" [queryParams]="{'id': catalogProcessor.productId}">
             <img src='data:image/jpeg;base64,{{catalogProcessor.pictures[0].picture}}' alt="unknown img">
           </div>
           <div class="prod-info">
-            <label class="prod-name">{{catalogProcessor.manufacturer}} {{catalogProcessor.model}}</label>
+            <div class="name-fav-logo">
+              <label class="prod-name" routerLink="/product/processor" [queryParams]="{'id': catalogProcessor.productId}">
+                {{catalogProcessor.manufacturer}} {{catalogProcessor.model}}</label>
+              <div class="fav-logo">
+                <img src="../../../../assets/img/favorites.png" alt="unknown img">
+              </div>
+            </div>
             <table>
               <tr>
                 <td>Кол-во ядер:</td>
@@ -57,13 +62,18 @@
           </div>
         </div>
         <div class="cost-info">
-          <p class="prod-name">{{catalogProcessor.cost}} руб.</p>
+          <p class="prod-cost">{{catalogProcessor.cost}} руб.</p>
           <div class="logos">
-            <div class="fav-logo">
-              <img src="../../../../assets/img/favorites.png" alt="unknown img">
-            </div>
-            <div class="cart-logo">
+            <div class="cart-logo" *ngIf="CheckProductInCart(catalogProcessor.productId) || !this.authService.isAuthenticated()"
+                 (click)="AddToCart(catalogProcessor.productId)">
               <img src="../../../../assets/img/cart.png" alt="unknown img">
+            </div>
+            <div class="cart" *ngIf="!CheckProductInCart(catalogProcessor.productId) && this.authService.isAuthenticated()">
+              <img class="cart-logo" src="../../../../assets/img/remove.png" alt="unknown img"
+                   (click)="RemoveFromCart(catalogProcessor.productId)">
+              <p class="quantity">{{GetQuantityInCart(catalogProcessor.productId)}}</p>
+              <img class="cart-logo" src="../../../../assets/img/add.png" alt="unknown img"
+                   (click)="AddToCart(catalogProcessor.productId)">
             </div>
           </div>
         </div>

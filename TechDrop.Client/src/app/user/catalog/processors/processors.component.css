@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 40em;
+  width: 50em;
 }
 
 .product{
@@ -70,11 +70,24 @@ img{
   height: 8em;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 .prod-info{
   padding-left: 0.5em;
   color: black;
 }
+.name-fav-logo{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.fav-logo{
+  margin-left: 1em;
+  width: 1.9em;
+  cursor: pointer;
+}
+
+
 .prod-name{
   font-size: 1.5em;
   margin: 0;
@@ -87,26 +100,40 @@ img{
 .info{
   margin: 0;
 }
-.logos{
-  display: flex;
-}
 
-.fav-logo{
-  width: 2em;
-  cursor: pointer;
-}
-.cart-logo{
-  width: 2.5em;
-  margin-left: 1em;
-  cursor: pointer;
-}
+
 .cost-info{
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: normal;
   padding: 0.5em;
 }
+.prod-cost{
+  padding: 0 0.8em 0.2em 0.8em;
+  font-size: 1.5em;
+  margin: 0;
+  color: black;
+}
+.logos{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 0 0.88em;
+}
+.cart-logo{
+  width: 2.5em;
+  cursor: pointer;
+}
 
+.cart{
+  display: flex;
+  align-items: center;
+}
+.quantity{
+  margin: 0;
+  font: 1.5em bolder;
+  color: black;
+}
 
 
 /*Отключение стрелок на input*/
