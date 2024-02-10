@@ -40,6 +40,8 @@ public class AddToCartCommandHandler : IRequestHandler<AddToCartCommand>
     private readonly CartService _cartService;
     private readonly TechDropDbContext _dbContext;
 
+    
+    // TODO Мб сервисы лучше создавать тут в конструкторе, а не инжектить, чтобы не плодить кучу объектов dbContext. Надо протестить.
     public AddToCartCommandHandler(UserService userService, ProductService productService, 
         CartService cartService, TechDropDbContext dbContext)
     {
