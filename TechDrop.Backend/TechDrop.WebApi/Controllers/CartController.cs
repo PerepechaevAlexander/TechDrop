@@ -37,4 +37,14 @@ public class CartController : ControllerBase
         await _mediator.Send(new AddToCartCommand(productId));
         return Ok();
     }
+
+    /// <summary>
+    /// Удалить товар из корзины.
+    /// </summary>
+    [HttpDelete(nameof(RemoveFromCartById))]
+    public async Task<IActionResult> RemoveFromCartById(int productId)
+    {
+        await _mediator.Send(new RemoveFromCartCommand(productId));
+        return Ok();
+    }
 }
