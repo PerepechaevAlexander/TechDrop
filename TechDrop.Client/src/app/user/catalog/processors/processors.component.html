@@ -4,17 +4,21 @@
     <div class="settings">
       <p class="set-h1">Фильтры</p>
       <p class="set-h2">Цена</p>
-      <label>От <input type="number" class="input-cost"> до <input type="number" class="input-cost">, руб.</label>
+      <label>От <input type="number" class="input-cost" [(ngModel)]="processorFilterDto.minCost"> до
+        <input type="number" class="input-cost" [(ngModel)]="processorFilterDto.maxCost">, руб.</label>
       <p class="set-h2">Наличие</p>
       <ul>
-        <li><label><input name="available" type="radio" checked>Все</label></li>
-        <li><label><input name="available" type="radio">Только в наличии</label></li>
+        <li><label><input name="available" type="radio"
+                          [value]="false" [(ngModel)]="processorFilterDto.available">Все</label></li>
+        <li><label><input name="available" type="radio"
+                          [value]="true" [(ngModel)]="processorFilterDto.available">Только в наличии</label></li>
       </ul>
       <p class="set-h2">Бренд</p>
       <ul>
-        <li><label><input type="checkbox">AMD</label></li>
-        <li><label><input type="checkbox">Intel</label></li>
+        <li><label><input type="checkbox" name="Manufacturer" value="AMD" (click)="FilterManufacturers('AMD')">AMD</label></li>
+        <li><label><input type="checkbox" name="Manufacturer" value="Intel" (click)="FilterManufacturers('Intel')">Intel</label></li>
       </ul>
+      <button (click)="ApplyFilters()">Применить</button>
     </div>
 
     <div class="products" id="products">

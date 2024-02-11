@@ -21,9 +21,13 @@ public class ProcessorController : ControllerBase
     /// </summary>
     /// <returns>Коллекция объектов CatalogProcessorDto</returns>
     [HttpGet("ForCatalog")]
-    public async Task<IList<CatalogProcessorDto>> GetProcessors()
+    public async Task<IList<CatalogProcessorDto>> GetProcessors(
+        string? manufacturers,
+        bool? available,
+        int? minCost,
+        int? maxCost)
     {
-        var processors = await _mediator.Send(new GetProcessorsQuery());
+        var processors = await _mediator.Send(new GetProcessorsQuery(manufacturers, available, minCost: minCost, maxCost: maxCost));
         return processors;
     }
 

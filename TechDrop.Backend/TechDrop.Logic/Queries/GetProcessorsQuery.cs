@@ -8,7 +8,37 @@ namespace TechDrop.Logic.Queries;
 /// <summary>
 /// Получить все процессоры для страницы каталога
 /// </summary>
-public class GetProcessorsQuery : IRequest<IList<CatalogProcessorDto>> { }
+public class GetProcessorsQuery : IRequest<IList<CatalogProcessorDto>>
+{
+    /// <summary>
+    /// TEMP Производитель
+    /// </summary>
+    public string[]? Manufacturers { get; set; }
+
+    /// <summary>
+    /// TEMP Доступность.
+    /// True - только доступные для заказа, False - все, находящиеся в бд.
+    /// </summary>
+    public bool? Available { get; set; }
+    
+    /// <summary>
+    /// TEMP Минимальная стоимость
+    /// </summary>
+    public int? MinCost { get; set; }
+    
+    /// <summary>
+    /// TEMP Максимальная стоимость
+    /// </summary>
+    public int? MaxCost { get; set; }
+
+    public GetProcessorsQuery(string? manufacturers, bool? available, int? minCost = null, int? maxCost = null)
+    {
+        Manufacturers = manufacturers?.Split('-');
+        Available = available;
+        MinCost = minCost;
+        MaxCost = maxCost;
+    }
+}
 
 public class GetProcessorsQueryHandler : IRequestHandler<GetProcessorsQuery, IList<CatalogProcessorDto>>
 {
@@ -39,7 +69,9 @@ public class GetProcessorsQueryHandler : IRequestHandler<GetProcessorsQuery, ILi
                 TechProcess = product.Processor!.TechProcess,
                 Tdp = product.Processor!.Tdp,
                 GraphCoreModel = product.Processor!.GraphCore.Model
-            }).ToListAsync(cancellationToken);
+            })
+            .OrderBy(dto => dto.Cost)
+            .ToListAsync(cancellationToken);
 
         // Добавляем картинки
         foreach (var processor in processors)
@@ -52,6 +84,33 @@ public class GetProcessorsQueryHandler : IRequestHandler<GetProcessorsQuery, ILi
                     Picture = pp.Picture.Resource
                 }).ToListAsync(cancellationToken);
             processor.Pictures = pictures;
+        }
+
+        // TEMP Фильтрация по минимальной стоимости
+        if (request.MinCost != null)
+        {
+            processors = processors.Where(p => p.Cost >= request.MinCost)
+                .ToList();
+        }
+
+        // TEMP Фильтрация по максимальной стоимости
+        if (request.MaxCost != null)
+        {
+            processors = processors.Where(p => p.Cost <= request.MaxCost)
+                .ToList();
+        }
+
+        // TEMP Фильтрация по производителю
+        if (request.Manufacturers != null && request.Manufacturers.Any())
+        {
+            processors = processors.Where(p => request.Manufacturers.Contains(p.Manufacturer))
+                .ToList();
+        }
+
+        // TEMP Фильтрация по доступности на складе
+        if (request.Available != null && (bool)request.Available)
+        {
+            processors = processors.Where(p => p.Quantity > 0).ToList();
         }
 
         return processors;

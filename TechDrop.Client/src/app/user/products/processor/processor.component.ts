@@ -72,7 +72,7 @@ export class ProcessorComponent implements OnInit {
     });
 
     this.productService.getProcessor(this.processorId).subscribe((res)=> {
-      this.processor = res;
+      this.processor = res.body as ProductProcessor;
     });
   }
 

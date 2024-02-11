@@ -5,6 +5,7 @@ import {CartService} from "../../../services/cart.service";
 import {ProductQuantityDto} from "../../../dtos/productQuantity-dto";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "../../../services/auth.service";
+import {ProcessorFilterDto} from "../../../dtos/processorFilter-dto";
 
 @Component({
   selector: 'app-processors',
@@ -15,9 +16,16 @@ import {AuthService} from "../../../services/auth.service";
 export class ProcessorsComponent implements OnInit {
 
   // Каталог всех товаров
-  catalogProcessors: CatalogProcessor[] = [];
+  catalogProcessors: CatalogProcessor[] | null = [];
   // Товары в корзине пользователя
   productsInCart: ProductQuantityDto[] =[];
+  // TEMP фильтр по процессорам
+  processorFilterDto: ProcessorFilterDto = {
+    manufacturers: [],
+    available: false,
+    minCost: null,
+    maxCost: null
+  };
 
   constructor(
     private productService: ProductService, private cartService: CartService,
@@ -29,10 +37,37 @@ export class ProcessorsComponent implements OnInit {
     this.productService.getProcessors().subscribe((res)=> {
       this.catalogProcessors = res;
     });
-    // Получаем товары из корзины пользователя
-    this.cartService.getCart().subscribe((res) => {
-      this.productsInCart = res;
-    });
+    // Если пользователь авторизован -> получаем товары из корзины пользователя
+    if (this.authService.isAuthenticated()){
+      this.cartService.getCart().subscribe((res) => {
+        this.productsInCart = res;
+      });
+    }
+  }
+
+  // Логика для фильтрации по производителю
+  FilterManufacturers(manufacturer: string){
+    console.log(manufacturer)
+    let index = this.processorFilterDto.manufacturers.findIndex(m => m === manufacturer);
+    if (index === -1){
+      this.processorFilterDto.manufacturers.push(manufacturer)
+    }
+    else {
+      this.processorFilterDto.manufacturers.splice(index, 1)
+    }
+  }
+
+  // TEMP Отфильтровать список процессоров
+  ApplyFilters(){
+    this.productService.getFilteredProcessors(this.processorFilterDto).subscribe({
+      next: (res) => {
+        this.catalogProcessors = res.body;
+      },
+      error: (e: HttpErrorResponse) => {
+        // TODO сделать нормальную обработку ошибок
+        console.log(e.error.ErrorMessage);
+      }
+    })
   }
 
   // Добавить товар в корзину

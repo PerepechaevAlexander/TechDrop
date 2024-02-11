@@ -11,7 +11,7 @@ import { RegisterComponent } from './user/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { ProcessorsComponent } from './user/catalog/processors/processors.component';
 import { ProcessorComponent } from './user/products/processor/processor.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 
 @NgModule({
@@ -25,12 +25,13 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
     ProcessorsComponent,
     ProcessorComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
   providers: [
     {
       provide: "BASE_API_URL", useValue: 'https://localhost:5200'
