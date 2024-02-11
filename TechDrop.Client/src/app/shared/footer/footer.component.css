@@ -1,0 +1,31 @@
+footer{
+  display: flex;
+  justify-content: space-evenly;
+  background-color: powderblue;
+  width:100%;
+}
+
+.footer-list{
+  flex-grow: 1;
+  margin: 0 0.5em;
+}
+
+.footer-links{
+  flex-grow: 2;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 0.5rem;
+}
+
+.container-footer{
+  display: flex;
+  justify-content: space-between;
+  max-width: 900px;
+  width: 70%;
+}
+
+.contacts{
+  margin: 0.5em 0;
+  font-size: 2em;
+}

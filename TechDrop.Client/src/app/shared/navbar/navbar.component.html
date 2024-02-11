@@ -1,0 +1,13 @@
+<header>
+  <nav class="nav-container">
+    <div class="logo-img">
+      <img routerLink="/" src="assets/img/logo.png" alt="unknown img">
+    </div>
+    <div class="header-links" *ngIf="localStorage.getItem('isAuthenticated') !== 'true'">
+      <a routerLink="/login">Войти</a>
+    </div>
+    <div class="header-links" *ngIf="localStorage.getItem('isAuthenticated') == 'true'">
+      <a (click)="this.logOut()">Выйти</a>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,84 @@
+<main>
+  <div class="page">
+
+    <div class="settings">
+      <p class="set-h1">Фильтры</p>
+      <p class="set-h2">Цена</p>
+      <label>От <input type="number" class="input-cost"> до <input type="number" class="input-cost">, руб.</label>
+      <p class="set-h2">Наличие</p>
+      <ul>
+        <li><label><input name="available" type="radio" checked>Все</label></li>
+        <li><label><input name="available" type="radio">Только в наличии</label></li>
+      </ul>
+      <p class="set-h2">Бренд</p>
+      <ul>
+        <li><label><input type="checkbox">AMD</label></li>
+        <li><label><input type="checkbox">Intel</label></li>
+      </ul>
+    </div>
+
+    <div class="products" id="products">
+      <div *ngFor="let catalogProcessor of catalogProcessors" class="product">
+        <div class="img-inf">
+          <div class="prod-img" routerLink="/product/processor" [queryParams]="{'id': catalogProcessor.productId}">
+            <img src='data:image/jpeg;base64,{{catalogProcessor.pictures[0].picture}}' alt="unknown img">
+          </div>
+          <div class="prod-info">
+            <div class="name-fav-logo">
+              <label class="prod-name" routerLink="/product/processor" [queryParams]="{'id': catalogProcessor.productId}">
+                {{catalogProcessor.manufacturer}} {{catalogProcessor.model}}</label>
+              <div class="fav-logo">
+                <img src="../../../../assets/img/favorites.png" alt="unknown img">
+              </div>
+            </div>
+            <table>
+              <tr>
+                <td>Кол-во ядер:</td>
+                <td>{{catalogProcessor.cores}}</td>
+              </tr>
+              <tr>
+                <td>Базовая частота:</td>
+                <td>{{catalogProcessor.baseFrequency}} ГГц</td>
+              </tr>
+              <tr>
+                <td>Максимальная частота:</td>
+                <td *ngIf="catalogProcessor.maxFrequency != null">{{catalogProcessor.maxFrequency}} ГГц</td>
+                <td *ngIf="catalogProcessor.maxFrequency == null">Отсутствует</td>
+              </tr>
+              <tr>
+                <td>Тех.процесс:</td>
+                <td>{{catalogProcessor.techProcess}} нм</td>
+              </tr>
+              <tr>
+                <td>GPU:</td>
+                <td *ngIf="catalogProcessor.graphCoreModel != null">{{catalogProcessor.graphCoreModel}}</td>
+                <td *ngIf="catalogProcessor.graphCoreModel == null">Отсутствует</td>
+              </tr>
+              <tr>
+                <td>Тепловыделение:</td>
+                <td>{{catalogProcessor.tdp}} Вт</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="cost-info">
+          <p class="prod-cost">{{catalogProcessor.cost}} руб.</p>
+          <div class="logos">
+            <div class="cart-logo" *ngIf="CheckProductInCart(catalogProcessor.productId) || !this.authService.isAuthenticated()"
+                 (click)="AddToCart(catalogProcessor.productId)">
+              <img src="../../../../assets/img/cart.png" alt="unknown img">
+            </div>
+            <div class="cart" *ngIf="!CheckProductInCart(catalogProcessor.productId) && this.authService.isAuthenticated()">
+              <img class="cart-logo" src="../../../../assets/img/remove.png" alt="unknown img"
+                   (click)="RemoveFromCart(catalogProcessor.productId)">
+              <p class="quantity">{{GetQuantityInCart(catalogProcessor.productId)}}</p>
+              <img class="cart-logo" src="../../../../assets/img/add.png" alt="unknown img"
+                   (click)="AddToCart(catalogProcessor.productId)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>

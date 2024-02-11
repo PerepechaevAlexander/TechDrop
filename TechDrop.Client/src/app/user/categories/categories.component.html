@@ -1,0 +1,14 @@
+<main class="page">
+
+  <div class="categories">
+
+    <div class="category" *ngFor="let category of categories" (click)="route(category.id)">
+      <div class="cat-img">
+        <img src="data:image/jpeg;base64,{{category.picture}}" alt="unknown img">
+      </div>
+      <label class="cat-name">{{category.name}}</label>
+    </div>
+
+  </div>
+
+</main>

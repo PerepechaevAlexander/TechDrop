@@ -1,0 +1,149 @@
+.page{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: gainsboro;
+  height: 100%;
+}
+
+
+.settings{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5em;
+  padding: 0.5em;
+  height: max-content;
+  background-color: white;
+  border-radius: 8px;
+}
+.set-h1{
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.set-h2{
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
+  font-size: 1em;
+  font-weight: bolder;
+}
+.input-cost{
+  width: 4em;
+}
+
+
+.products{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50em;
+}
+
+.product{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0.5em;
+  padding: 0.5em;
+  background-color: white;
+  border-radius: 8px;
+  transition-duration: 0.25s;
+  box-shadow: 0 0 10px 5px gainsboro;
+}
+.product:hover{
+  transition-duration: 0.25s;
+  box-shadow: 0 0 10px 5px lightsteelblue;
+}
+img{
+  max-width: 100%;
+  object-fit: contain;
+}
+.img-inf{
+  display: flex;
+  padding: 0.5em;
+}
+.prod-img{
+  width: 8em;
+  height: 8em;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+.prod-info{
+  padding-left: 0.5em;
+  color: black;
+}
+.name-fav-logo{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.fav-logo{
+  margin-left: 1em;
+  width: 1.9em;
+  cursor: pointer;
+}
+
+
+.prod-name{
+  font-size: 1.5em;
+  margin: 0;
+  color: black;
+  cursor: pointer;
+}
+.prod-name-selected{
+  color: darkblue;
+}
+.info{
+  margin: 0;
+}
+
+
+.cost-info{
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+  padding: 0.5em;
+}
+.prod-cost{
+  padding: 0 0.8em 0.2em 0.8em;
+  font-size: 1.5em;
+  margin: 0;
+  color: black;
+}
+.logos{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 0 0.88em;
+}
+.cart-logo{
+  width: 2.5em;
+  cursor: pointer;
+}
+
+.cart{
+  display: flex;
+  align-items: center;
+}
+.quantity{
+  margin: 0;
+  font: 1.5em bolder;
+  color: black;
+}
+
+
+/*Отключение стрелок на input*/
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
