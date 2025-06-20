@@ -33,7 +33,7 @@ import {AuthInterceptor} from "./interceptors/auth.interceptor";
     ],
   providers: [
     {
-      provide: "BASE_API_URL", useValue: 'https://localhost:5200'
+      provide: "BASE_API_URL", useValue: 'http://localhost:5000'
     },
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
